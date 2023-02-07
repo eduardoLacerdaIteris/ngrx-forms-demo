@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { MaterialModule } from '../material';
 import { FormExampleComponent } from './form-example/form-example.component';
+import { GuardTypePipe } from './guard-type.pipe';
 
 export const COMPONENTS = [
   FormExampleComponent,
+  GuardTypePipe,
 ];
 
 @NgModule({

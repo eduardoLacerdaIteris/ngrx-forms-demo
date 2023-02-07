@@ -1,8 +1,5 @@
 <ngf-layout>
   <ngf-sidenav>
-    <ngf-nav-item routerLink="/introduction">
-      Introduction
-    </ngf-nav-item>
     <ngf-nav-item *ngFor="let example of examples"
                   [routerLink]="example.path"
                   [hint]="example.hint">

@@ -1,0 +1,66 @@
+@import '../../styles/shared';
+
+:host {
+  @extend .page;
+}
+
+form {
+  >div:not(.buttons) {
+    display: flex;
+    padding: 5px;
+
+    >label {
+      width: fit-content;
+      float: right;
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 10px;
+      font-weight: bold;
+      line-height: 21px;
+    }
+
+    >div {
+      flex: 1;
+    }
+  }
+
+  >.buttons {
+    display: flex;
+    padding: 5px;
+
+    >div:nth-child(1) {
+      width: 110px;
+      margin-right: 10px;
+    }
+
+    >div:nth-child(2) {
+      flex: 1;
+    }
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column-reverse;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+
+    &.required::after {
+      content: " *";
+      color: #e32;
+    }
+  }
+
+  input:required+label::after,
+  select:required+label::after,
+  textarea:required+label::after {
+    content: " *";
+    color: #e32;
+  }
+}
+
+.error-messages li {
+  color: red;
+}

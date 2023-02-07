@@ -17,6 +17,7 @@ import { LayoutModule } from './layout/layout.module';
 import { MaterialModule } from './material';
 import { SharedModule } from './shared/shared.module';
 import { CustomRouterStateSerializer } from './shared/utils';
+import { EmployeeEffects } from './employee-form/store/employee-form.effects';
 
 export const COMPONENTS = [
   AppComponent,
@@ -34,7 +35,9 @@ export const COMPONENTS = [
     StoreModule.forRoot(reducers),
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([
+      EmployeeEffects,
+    ]),
     LayoutModule.forRoot(),
   ],
   declarations: COMPONENTS,

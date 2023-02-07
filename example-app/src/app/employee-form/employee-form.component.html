@@ -1,0 +1,205 @@
+<ngf-form-example
+  exampleName="Employee Form"
+  *ngIf="formState$ | async as formState"
+  [formState]="formState"
+>
+  This example shows a basic form without any extras using action creators and simple reducers as available in ngrx 8
+  and above.
+  <br />
+  <br />
+  <form [ngrxFormState]="formState" (submit)="submit()">
+    <div>
+      <div class="form-group">
+        <input type="text"
+          placeholder="First Name"
+          [ngrxFormControlState]="formState.controls.firstName"
+          required
+        />
+      </div>
+    </div>
+    <div>
+      <div class="form-group">
+        <input type="text"
+          placeholder="Last Name"
+          [ngrxFormControlState]="formState.controls.lastName"
+          required
+        />
+        <label>Last Name</label>
+      </div>
+    </div>
+    <div>
+      <div class="form-group">
+        <input type="email"
+               placeholder="Email"
+               [ngrxFormControlState]="formState.controls.email"
+               required />
+        <label>Email</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div>
+        <label>
+          <input type="radio"
+                 value="male"
+                 name="sex"
+                 [ngrxFormControlState]="formState.controls.sex" /> Male
+        </label>
+        <label>
+          <input type="radio"
+                 value="female"
+                 name="sex"
+                 [ngrxFormControlState]="formState.controls.sex" /> Female
+        </label>
+      </div>
+      <label>Sex</label>
+    </div>
+
+    <div class="form-group">
+      <div>
+        <label>
+          <input type="radio"
+                 [value]="true"
+                 name="usesCompanyComputer"
+                 [ngrxFormControlState]="formState.controls.usesCompanyComputer"/> Yes
+        </label>
+        <label>
+          <input type="radio"
+                 [value]="false"
+                 name="usesCompanyComputer"
+                 [ngrxFormControlState]="formState.controls.usesCompanyComputer"/> No
+        </label>
+      </div>
+      <label>Is Going To Use Company Computer</label>
+    </div>
+
+    <div class="form-group">
+      <div *ngIf="(formState$ | async)?.controls?.adress as adressForm">
+          <form [ngrxFormState]="adressForm">
+            <div>
+              <div class="form-group">
+                <input type="text"
+                      placeholder="Street"
+                      [ngrxFormControlState]="adressForm.controls.street" />
+                <label>Street</label>
+              </div>
+            </div>
+            <div>
+
+              <div class="form-group">
+                <input type="text"
+                      placeholder="City"
+                      [ngrxFormControlState]="adressForm.controls.city" />
+                <label>City</label>
+              </div>
+            </div>
+            <div>
+              <div class="form-group">
+                <input type="text"
+                      placeholder="State"
+                      [ngrxFormControlState]="adressForm.controls.state" />
+                <label>State</label>
+              </div>
+            </div>
+            <div>
+              <div class="form-group">
+                <input type="text"
+                      placeholder="Country"
+                      [ngrxFormControlState]="adressForm.controls.country" />
+                <label>Country</label>
+              </div>
+            </div>
+        </form>
+      </div>
+      <label>Adress</label>
+    </div>
+
+    <div>
+      <div class="form-group">
+        <select [ngrxFormControlState]="formState.controls.employeeDepartment" required>
+          <option value="hr">HR</option>
+          <option value="development">Development</option>
+        </select>
+        <label>Department</label>
+      </div>
+    </div>
+
+    <div *ngIf="formState | guardType: isDeveloperEmployeeForm as developerEmployeeForm">
+      <div class="form-group">
+        <div>
+          <label>
+            <input type="radio"
+                   value="frontend"
+                   name="developerType"
+                   required
+                   [ngrxFormControlState]="developerEmployeeForm.controls.developerType" /> Frontend
+          </label>
+          <label>
+            <input type="radio"
+                   value="backend"
+                   name="developerType"
+                   required
+                   [ngrxFormControlState]="developerEmployeeForm.controls.developerType" /> Backend
+          </label>
+          <label>
+            <input type="radio"
+                   value="fullstack"
+                   name="developerType"
+                   required
+                   [ngrxFormControlState]="developerEmployeeForm.controls.developerType" /> Fullstack
+          </label>
+        </div>
+        <label class="required">Developer Type</label>
+      </div>
+      <div>
+        <div class="form-group">
+          <select multiple [ngrxFormControlState]="developerEmployeeForm.controls.technologies">
+            <option *ngFor="let technologie of technologies$ | async" [value]="technologie">{{technologie}}</option>
+          </select>
+          <label>Main Technologies</label>
+        </div>
+      </div>
+    </div>
+
+    <ul *ngIf="formState.isInvalid" class="error-messages">
+      <li *ngIf="formState.errors?._firstName?.required && formState.controls.firstName.isTouched">
+        First name is required
+      </li>
+      <li *ngIf="formState.errors?._lastName?.required && formState.controls.lastName.isTouched">
+        Last name is required
+      </li>
+      <li *ngIf="formState.errors?._email?.required && formState.controls.email.isTouched">
+        Email is required
+      </li>
+      <li *ngIf="formState.errors?._employeeDepartment?.required && formState.controls.employeeDepartment.isTouched">
+        Employee department is required
+      </li>
+      <ng-container *ngIf="formState | guardType: isDeveloperEmployeeForm as developerEmployeeForm">
+        <li *ngIf="developerEmployeeForm.errors?._developerType?.required && developerEmployeeForm.controls.developerType.isTouched">
+          Developer type is required
+        </li>
+      </ng-container>
+    </ul>
+
+    <div class="form-group buttons">
+      <div></div>
+      <div>
+        <button type="submit">
+          Submit
+        </button>
+        <button type="button"
+                [disabled]="formState.isPristine
+                            && formState.isUntouched
+                            && formState.isUnsubmitted"
+                (click)="reset()">
+          Reset
+        </button>
+      </div>
+    </div>
+  </form>
+  <br />
+  <div *ngIf="formState.isSubmitted">
+    The form was submitted with the following value:
+    <br />
+    <pre>{{ submittedValue$ | async | json }}</pre>
+  </div>
+</ngf-form-example>
